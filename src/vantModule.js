@@ -1,0 +1,45 @@
+import Vue from 'vue';
+import Button from 'vant/lib/button';
+import { Swipe, SwipeItem } from 'vant';
+import { Icon } from 'vant';
+import { Tabbar, TabbarItem } from 'vant';
+import { Image as VanImage } from 'vant';
+import { NavBar } from 'vant';
+import { Popup } from 'vant';
+import { Form } from 'vant';
+import { Field } from 'vant';
+import { Tab, Tabs } from 'vant';
+import { Search } from 'vant';
+import { Step, Steps } from 'vant';
+import { Stepper } from 'vant';
+import { SubmitBar } from 'vant';
+import { Checkbox } from 'vant';
+import { ActionSheet } from 'vant';
+import { List } from 'vant';
+import { PullRefresh } from 'vant';
+import { Cell } from 'vant';
+
+Vue.use(Cell);
+Vue.use(PullRefresh);
+Vue.use(List);
+Vue.use(ActionSheet);
+Vue.use(Checkbox);
+Vue.use(SubmitBar);
+Vue.use(Stepper);
+
+Vue.use(Step);
+Vue.use(Steps);
+Vue.use(Search);
+Vue.use(Tab);
+Vue.use(Tabs);
+Vue.use(Form);
+Vue.use(Field);
+Vue.use(Popup);
+Vue.use(NavBar);
+Vue.use(VanImage)
+Vue.use(Tabbar);
+Vue.use(TabbarItem);
+Vue.use(Icon);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(Button);

@@ -1,0 +1,150 @@
+//主题色list  使用主题色list时 多种颜色默认选取第一个 其他则根据list 下标获取值
+//例 $g:(#fff,#bbb) getColor($g,"lightYellow") = #bbb; getColor($g,"yellow") yellow不存在 取值 lightBlue = #fff
+//例2 $g:(#fff,null,#fbb) getColor($g,"lightYellow") 值为null 去默认值 #fff
+//例3 $arr:('l','y','g') $g:(#fff,#fbb) 要使'g'主题变为 #fbb $g:(#fff,null,#fbb)这样才可以正确取值
+$arr: ("lightBlue", "lightYellow");
+
+@function getColor($list, $in: "lightBlue") {
+  $type: type-of($list);
+  @if $type == "list" {
+    $index: index($arr, $in);
+    @if $index == null {
+      @return nth($list, 1);
+    } @else {
+      $v: nth($list, $index);
+      @if $v == null {
+        @return nth($list, 1);
+      } @else {
+        @return $v;
+      }
+    }
+  } @else {
+    @return $list;
+  }
+}
+
+//主题色
+//common
+$m_color: (#7d7bd7, #fdc003);
+$m_tf_color: (white, black);
+$m_bf_color: (white, black);
+$m_bb_color: (#7d7bd7, #fdc003);
+$m_tb_color: (#7d7bd7, #fdc003);
+$m_tf_color: (white, black);
+$m_confirmBtnOk_color: (#4961d5, #ee0a24);
+
+//客服浮选窗颜色
+$m_cb_color:#38db4e;
+$m_cf_color:#fff;
+//登录
+//背景颜色
+$load_bg_color: (#d4e5ff, #fdc003);
+//btn背景颜色
+$load_bb_color: (#2e2cdb62, #e95156);
+//btn字体颜色
+$load_bf_color: white;
+
+//home
+//btnColor
+$home_tbg_color_1: (#c4d2f1, #fad73b);
+$home_tbg_color_2: (#8fb2ff, #f7b091);
+$home_tbf_color: (#4a1d58, black);
+//上一排
+$home_btbg_color_1: (#e3d5ef, #ffe15b);
+$home_btbg_color_2: (#8fb2ff, #f9a37e);
+//下一排
+$home_bbg_color_1: (#e5d5ef, #ffb092);
+$home_bbg_color_2: (#8fcbff, #f5d8a3);
+
+//user头部
+$user_topBg_color_1: (#836dff, #fdc003);
+$user_topBg_color_2: (#69a8dd, #ffd864);
+$user_topBf_color: (#4b0e62, black);
+$user_unLoadBtn_color: (#7b81ab, #d1c297);
+
+//bag
+//bag 悬浮按钮颜色
+$bag_applyBtn_color: (#bf02a7, red);
+$bag_applyBtnShadow_color: (rgba(172, 36, 217, 0.75), rgba(231, 68, 68, 0.39));
+
+//pay
+//pay tips
+$pay_tips_color: (#6772f9, #ff5656);
+$pay_riadoB_color: (#328eed, #3be0d3);
+
+//profit
+$link_tips_color: (#ececf9, brown);
+
+//wallet
+$total_tipsB_color: (#7d7bd7, #fdc003);
+$total_tipsF_color: (#ececf9, brown);
+$total_numF_color: (#3d3bbb, #3077eb);
+$total_titleF_color: (#3d3bbb, #6699ff);
+$total_numberF_color: (#c72d2d, #ff6666);
+
+$consume_tipsB_color: (#7d7bd7, #fdc003);
+$consume_tipsF_color: (#3d3bbb, #3077eb);
+$consume_titleF_color: (#3d3bbb, #6699ff);
+$consume_numberF_color: (#c72d2d, #ff6666);
+
+//order
+//orderBtn
+$order_btnB_color: (#7d7bd7, black);
+$order_btnF_color: (#f1f1ff, #fdc003);
+//orderItem
+$order_title_color: (#2e228f, #333);
+$order_itF_color: (#645cad, black);
+$order_ibF_color: (#54467e, black);
+$order_copyF_color: (#f1f1ff, #ef6666);
+$order_statusF_color: (#f1f1ff, #fff);
+
+//bag
+$bag_title_color: (#2e228f, #333);
+$bag_itF_color: (#645cad, black);
+$bag_ibF_color: (#54467e, black);
+$bag_btnB_color: (#7d7bd7, #fff3c3);
+$bag_btnF_color: (#f1f1ff, black);
+$bag_copyF_color: (#2e228f, #ef6666);
+$bag_copyTF_color: (#2e228f, #333333);
+$bag_tips_bcolor: (#bccdff, #fbdda7);
+$bag_tips_brColor: (#c6f7ff, #ffc55b);
+
+@mixin Color($color) {
+  [data-theme="lightYellow"] & {
+    color: getColor($color, "lightYellow");
+  }
+  color: getColor($color);
+}
+@mixin BackColor($color) {
+  [data-theme="lightYellow"] & {
+    background-color: getColor($color, "lightYellow");
+  }
+  background-color: getColor($color);
+}
+@mixin BackLightColor($p, $color1, $color2) {
+  [data-theme="lightYellow"] & {
+    background: linear-gradient(
+      getColor($color1, "lightYellow"),
+      getColor($color2, "lightYellow")
+    );
+  }
+  background: linear-gradient($p, getColor($color1), getColor($color2));
+}
+@mixin BoxShadow($p, $color) {
+  [data-theme="lightYellow"] & {
+    box-shadow: $p getColor($color, "lightYellow");
+  }
+  box-shadow: $p getColor($color);
+}
+@mixin BorderColor($color) {
+  [data-theme="lightYellow"] & {
+    border-color: getColor($color, "lightYellow");
+  }
+  border-color: getColor($color);
+}
+@mixin Fill($color) {
+  [data-theme="lightYellow"] & {
+    fill: getColor($color, "lightYellow");
+  }
+  fill: getColor($color);
+}
