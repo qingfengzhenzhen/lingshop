@@ -44,7 +44,7 @@
 export default {
   methods: {
     onClickLeft() {
-      this.$router.push("/logistics");
+      this.$router.back()
     },
   },
 };
@@ -111,7 +111,7 @@ export default {
     .list {
       overflow: hidden;
       display: flex;
-      align-items: center;
+      align-items: center;padding: 7px 0;
       .data {
         flex: 1;
         margin: 0 5px 0 10px;

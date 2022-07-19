@@ -13,7 +13,7 @@
         name="nickName"
         :label="$t('login.user name')"
         :placeholder="$t('login.Please enter a') + $t('login.user name')"
-        :rules="[{ required: true, message: '请填写用户名' }]"
+        :rules="[{ required: true, message: $t('login.Please enter a') + $t('login.user name') }]"
       />
       <van-field
         v-model="account"
@@ -21,7 +21,7 @@
         name="account"
         :label="$t('login.account number')"
         :placeholder="$t('login.Please enter a') + $t('login.account number')"
-        :rules="[{ required: true, message: '请填写账号' }]"
+        :rules="[{ required: true, message: $t('login.Please enter a') + $t('login.account number') }]"
       />
       <van-field
         v-model="password"
@@ -31,9 +31,9 @@
         :placeholder="$t('login.Please enter a') + $t('login.password')"
         :rules="[
           {
-            required: !iscli,
+            required: true,
             pattern,
-            message: '密码格式为6-12位任意非空字符',
+            message: $t('login.pattern'),
           },
         ]"
       />
@@ -56,14 +56,14 @@
 </template>
 
 <script>
-import { Toast } from "vant";
+import { Toast, Notify } from "vant";
 import { login, Register } from "@/api/login";
 export default {
   data() {
     return {
-      nickName: "12321321",
-      password: "123123123",
-      account: "123123123",
+      nickName: "",
+      password: "",
+      account: "",
       iscli: true,
       pattern: /^\S{6,12}$/,
     };
@@ -72,7 +72,8 @@ export default {
     // 登录或注册按钮
     async onSubmit(values) {
       Toast.loading({
-        message: "加载中...",
+        duration: 0,
+        message: this.$t('edit.Loading'),
         forbidClick: true,
       });
       let data;
@@ -80,32 +81,31 @@ export default {
         // this.$refs.btn.type="info"
         // this.$refs.btn.loadingText="加载中..."
         data = await login(values);
+          Toast.clear();
         if (data.code == 414) {
-          Toast.loading({
-            message: "加载中...",
-            forbidClick: false,
-          });
-          Toast.fail("密碼或账号錯誤");
+          Notify({ type: "warning", message: this.$t('add.Wrong password or account number')});
           return;
         } else if (data.code == 200) {
-          Toast.loading({
-            message: "加载中...",
-            forbidClick: false,
-          });
-          Toast.success("登录成功");
+          Notify({ type: "success", message: this.$t("add.Landing success") });
         }
       } else {
         data = await Register(values);
-        Toast.loading({
-          message: "加载中...",
-          forbidClick: false,
-        });
-        Toast.success("注册成功，已登录");
+        Toast.clear();
+        if (data.code == 200) {
+          Notify({ type: "success", message: this.$t("add.Successfully registered, and logged in automatically") });
+        } else if (data.code == 414) {
+          Notify({ type: "danger", message:this.$t("add.Account registered") });
+          return
+        }
       }
-      console.log(data);
-      localStorage.setItem("tk", data.data.token);
-      this.$store.commit("user/setData", data.data);
-      this.$router.push("/home");
+      localStorage.setItem("tk", data.token || data.data.token);
+      localStorage.setItem("info", JSON.stringify(data || data.data));
+      this.$store.commit("user/setData", data || data.data);
+      if (this.$route.query.always) {
+        this.$router.push({ path: this.$route.query.always, replace: true });
+      } else {
+        this.$router.push({ path: "/home", replace: true });
+      }
     },
     onClickLeft() {
       this.$router.go(-1);
@@ -113,6 +113,9 @@ export default {
     change() {
       if (this.iscli) {
         this.iscli = false;
+        this.nickName = "";
+        this.password = "";
+        this.account = "";
       }
     },
     change2() {

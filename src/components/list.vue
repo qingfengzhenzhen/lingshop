@@ -1,6 +1,6 @@
 <template>
   <div class="userList">
-    <van-icon :name="iconName" />
+    <van-icon :name="iconName" :color="color" />
     <div style="flex:1">
     &nbsp;
       <slot ></slot> 
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props:["iconName"]
+  props:["iconName","color"]
 }
 </script>
 

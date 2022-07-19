@@ -8,6 +8,7 @@ import sell from '../views/sell/index.vue'
 import purchase from '../views/purchase/index.vue'
 import address from '../views/user/address/index.vue'
 import addAddress from '../views/user/address/add.vue'
+import personalData from '../views/user/personalData/index.vue'
 import order from '../views/user/order/index.vue'
 import logistics from '../views/logistics/index.vue'
 import OrderDetails from '../views/logistics/OrderDetails.vue'
@@ -20,6 +21,15 @@ import submit from '../views/submit/index.vue'
 import shopCart from '../views/shopCart/index.vue'
 import guan from '../views/guan/index.vue'
 import paylist from '../views/payList/index.vue'
+import selectAddress from '../views/submit/selectAddress.vue'
+import aboutUs from '../views/user/aboutUs/index.vue'
+import category from '../views/category/index.vue'
+import goodsType from '../views/goodsType/index.vue'
+import witnessList from '../views/witnessList/index.vue'
+import settings from '../views/settings/index.vue'
+import FinancialRecords from '../views/user/FinancialRecords/index.vue'
+import LogisticsOrder from '../views/user/LogisticsOrder/index.vue'
+import { Toast } from 'vant'
 
 Vue.use(VueRouter)
 
@@ -68,6 +78,7 @@ const routes = [{
         name: 'shopCart',
         component: shopCart,
       },
+     
     ]
   },
   { //订单费用
@@ -130,7 +141,57 @@ const routes = [{
     name: 'paylist',
     component: paylist,
   },
-
+  { //地址选择
+    path: '/selectAddress',
+    name: 'selectAddress',
+    component: selectAddress,
+  },
+  { //公司详情
+    path: '/aboutUs',
+    name: 'aboutUs',
+    component: aboutUs,
+  },
+  { //新聞詳情
+    path: '/category',
+    name: 'category',
+    component: category,
+  },
+  { //商品详情
+    path: '/goodsType',
+    name: 'goodsType',
+    component: goodsType,
+  },
+  { //见证列表
+    path: '/witnessList',
+    name: 'witnessList',
+    component: witnessList,
+  },
+  { //编辑资料
+    path: '/personalData',
+    name: 'personalData',
+    component: personalData,
+  },
+  { //设置
+    path: '/settings',
+    name: 'settings',
+    component: settings,
+  },
+  // 财务记录
+  {
+    path:"/FinancialRecords",
+    name:"FinancialRecords",
+    component:FinancialRecords
+  },
+  // 物流订单
+  {
+    path:"/LogisticsOrder",
+    name:"LogisticsOrder",
+    component:LogisticsOrder
+  },
+  {
+    path:'*',
+    redirect:"/home"
+  }
 ]
 
 const router = new VueRouter({
@@ -138,5 +199,19 @@ const router = new VueRouter({
   base:'./',
   routes
 })
+
+
+
+router.beforeEach((to, from, next) => {
+  if (to.path == '/login'&&from.path) {
+    if(localStorage.getItem("tk")) {
+      Toast.success('您已经登录')
+      next(from.path)
+    }
+  } 
+      next();
+});
+
+
 
 export default router

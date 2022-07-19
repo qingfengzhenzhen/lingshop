@@ -11,7 +11,9 @@
     "Pay attention to us":"关注我们",
     "the most popular commodities":"热门商品",
     "Customer Testimonials":"客户见证",
-    "customs clearance":"清关"
+    "customs clearance":"清关",
+    "News detail":"新闻详情",
+    "commodity classification":"商品分类"
   },
   "user":{
     "changeLang":"切换语言",
@@ -20,7 +22,12 @@
     "editData":"编辑资料",
     "Address management":"地址管理",
     "purchase order":"采购订单",
-    "log out":"退出登录"
+    "log out":"退出登录",
+    "About us":"关于我们",
+    "Company mailbox":"公司邮箱",
+    "contact number":"联系电话",
+    "contacts":"联系人",
+    "name of the company":"公司名称"
   },
   "shopCart" :{
     "check all":"全选",
@@ -62,8 +69,7 @@
     "Select this address":"选择该地址",
     "edit":"编辑",
     "delete":"删除",
-    "delivery address":"收货地址",
-    "number plate":"门牌号",
+    "number plate":"详细地址",
     "cell-phone number":"手机号",
     "Check box group":"复选框组",
     "preserve":"保存",
@@ -111,5 +117,45 @@
     "add to cart":"加入购物车",
     "Immediate purchase":"立即购买",
     "count":"数量"
+  },
+  "edit":{
+    "pet name":"昵称",
+    "mobile phone number":"手机号码",
+    "account number":"账号",
+    "email mailbox":"电子邮箱",
+    "Delete selected":"删除已选择?",
+    "Loading":"加载中"
+  },
+  "add":{
+    "Delete succeeded":"删除成功",
+    "Cancel editing?":"是否取消编辑",
+    "Delete this order?":"是否删除该订单",
+    "Are you sure you want to log out?":"您确定退出登录吗?",
+    "Delete this address?":"是否删除此地址？",
+    "Exit successfully":"退出成功",
+    "Modified successfully":"修改成功",
+    "Shopping cart added successfully":"购物车添加成功",
+    "There is no default address Please go to the address management page to add an address first":"暂无默认地址，请先去地址管理页面添加地址",
+    "This commodity is temporarily out of stock.":"该商品暂无库存",
+    "set up":"设置",
+    "Wrong password or account number":"密码或账号错误",
+    "Landing success":"登陆成功",
+    "Successfully registered, and logged in automatically":"注册成功，已自动登录",
+    "Account registered":"账号已注册",
+    "Search commodity name":"搜索商品名字",
+    "Click to enter":"点击进入",
+    "Order data loss":"订单数据丢失",
+    "Order submitted successfully":"订单提交成功",
+    "Order submission failed":"订单提交失败",
+    "piece":"件",
+    "Expand size":"展开共",
+    "A total of":"共",
+    "items goods":"件商品",
+    "sum of money":"金额",
+    "pack up":"收起",
+    "No more":"没有更多了",
+    "No address has been added yet":"还没添加地址",
+    "Go to add":"前往添加",
+    "pieces have been sold":"件已售出"
   }
 }

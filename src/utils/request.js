@@ -49,28 +49,52 @@
 // export default instance
 
 import axios from 'axios'
+import store from '../store'
+import router from '../router'
 
 
 const ajax = axios
-import { Toast } from "vant";
+import {
+	Toast
+} from "vant";
 
 ajax.create({
-	method: "POST",
+	// headers: {
+	// 	accept: 'application/json',
+	// 	// ContentType:'application/json',
+	// },
+	// withCredentials: true,
+	timeout: 10000, // 请求超时时间
+	transformRequest: data => qs.stringify(data), //
 	headers: {
-		accept: 'application/json',
-		// Content-Type:'application/json',
-		
+		// "Content-Type": "application/x-www-form-urlencoded",
+		"Content-Type": "application/json;charset=UTF-8",
+
 	},
-	timeout:10000
+	dataType: 'json',
+	withCredentials: false
 })
-ajax.defaults.baseURL = process.env.VUE_APP_BASE_API
+ajax.defaults.baseURL = "http://8.129.38.70:8008"
+// ajax.defaults.baseURL = process.env.VUE_APP_BASE_API
+
+// ajax.defaults.baseURL = "http://106.52.170.127:8888/api"
 
 //响应拦截。非200错误的弹出提示。
 axios.interceptors.response.use(
 	(response) => {
-		if(response.data.code ==401&& response.data.message=='请填写有效Token!' ) {
-			Toast.fail('登录有效期已过，请重新登录')
+		if (response.code == 401 || response.data.code == 401) {
+			if (localStorage.getItem("tk")) {
+				Toast.fail("登录已过期，请重新登录")
+				localStorage.clear("info")
+				store.commit("user/setData", null)
+				router.push("/login")
+			} else {
+				Toast.fail("请先登录")
+			}
+		} else if (response.code == 500) {
+			Toast.fail(response.data)
 		}
+
 		// 判断请求成功后的参数
 		return response.data
 	},
@@ -86,9 +110,9 @@ axios.interceptors.request.use(
 		if (tk) {
 			config.headers["Authorization"] = `Bearer ${tk}`;
 		}
-		return config;
+		return config
 	},
-	(err)=>{
+	(err) => {
 		return err
 	}
 )

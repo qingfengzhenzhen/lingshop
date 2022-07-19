@@ -38,7 +38,7 @@
 export default {
   methods: {
     onClickLeft() {
-      this.$router.push("/logistics");
+      this.$router.back();
     },
   },
 };
@@ -55,6 +55,7 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0px 0px 10px 1px rgba(189, 191, 255, 0.591);
     & > div {
       margin: 10px 0;
     }

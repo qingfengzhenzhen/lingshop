@@ -1,102 +1,71 @@
 <template>
   <div class="address">
     <!-- 标题 -->
-    <van-nav-bar :title="$t('user.Address management')" fixed left-arrow @click-left="onClickLeft" />
+    <van-nav-bar
+      :title="$t('user.Address management')"
+      fixed
+      left-arrow
+      @click-left="onClickLeft"
+    />
     <div class="add">
-      <van-button @click="to()" round  style="width:100%" color="#4480f9">
-        {{$t('address.Add delivery address')}}
+      <van-button @click="to()" round style="width: 100%" color="#4480f9">
+        {{ $t("address.Add delivery address") }}
       </van-button>
     </div>
     <!-- 地址列表 -->
     <div v-for="(v, i) in addressList" :key="i" class="box">
-      <span class="name">{{ v.name }}</span>
-      <span class="mobile">{{ v.mobile }}</span>
+      <span class="name">{{ v.signer }}</span>
+      <span class="mobile">{{ v.phone }}</span>
       <div class="text">
+        <p class="van-ellipsis">
+          {{ v.countryName + v.proviceName + v.cityName + v.areaName }}
+        </p>
         <p class="van-ellipsis">
           {{ v.address }}
         </p>
-        <p class="van-ellipsis">
-          {{ v.DetailedAddress }}
-        </p>
       </div>
       <div class="footer">
-        <div v-if="v.isDefault" class="iconDefault">
+        <div v-if="v.is_default" class="iconDefault">
           <div>
             <van-icon name="success" />
           </div>
-          <span>{{$t('address.Default address')}}</span>
+          <span>{{ $t("address.Default address") }}</span>
         </div>
-        <div v-else @click="change(i)" class="icon">
+        <div v-else @click="change(v.id,i)" class="icon">
           <div></div>
-          <span>{{$t('address.Select this address')}}</span>
+          <span>{{ $t("address.Select this address") }}</span>
         </div>
         <div class="btn">
-          <div @click="edit(v)"><van-icon name="edit" /> {{$t('address.edit')}}</div>
-          <div><van-icon name="delete-o" /> {{$t('address.delete')}}</div>
+          <div @click="edit(v)">
+            <van-icon name="edit" /> {{ $t("address.edit") }}
+          </div>
+          <div @click="isdelete(v.id,v.is_default)">
+            <van-icon name="delete-o" /> {{ $t("address.delete") }}
+          </div>
         </div>
       </div>
     </div>
 
     <!-- 编辑框 -->
-    <van-popup v-model="show">
-     <addressList :data='editData' @isShow="isHide()"></addressList>
+    <van-popup  v-model="show">
+      <addressList :data="editData" @isShow="isHide()"></addressList>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { Dialog } from "vant";
-import addressList from "./add.vue"
+import { getAddress, delAddress, SetDefaultAddress } from "@/api/address.js";
+import { Dialog, Toast } from "vant";
+import addressList from "./add.vue";
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component,
-    addressList
+    addressList,
   },
   data() {
     return {
       addressList: [
-        {
-          name: "王小明",
-          address: "深圳市龙华区1231231111111111111111",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault: 1,
-        },
-        {
-          name: "王小明",
-          address: "深圳市龙华区",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault:0
-        },
-        {
-          name: "王小明",
-          address: "深圳市龙华区",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault:0
-        },
-        {
-          name: "王小明",
-          address: "深圳市龙华区",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault:0
-        },
-         {
-          name: "王小明",
-          address: "深圳市龙华区",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault:0
-        },
-        {
-          name: "王小明",
-          address: "深圳市龙华区",
-          DetailedAddress: "深南大道xxxx号",
-          mobile: "123123123",
-          isDefault:0
-        },
+      
       ],
       editData: {
         name: "王小明",
@@ -109,13 +78,20 @@ export default {
       pattern: /\d{6}/,
     };
   },
-  created() {
-    console.log('初始化');
-    console.log(this.$route);
+  async created() {
+    let a = await getAddress();
+    this.addressList = a.data;
+    if(this.addressList.length==1) {
+      await this.change(this.addressList[0].id,0)
+    }
   },
   methods: {
     onClickLeft() {
-      this.$router.push(this.$route.query.form);
+      // if(this.$route.query.form){
+      //   this.$router.push(this.$route.query.form);
+      // }else {
+        this.$router.back()
+      // }
     },
     // 编辑按钮
     edit(v) {
@@ -127,20 +103,49 @@ export default {
     onFailed(errorInfo) {
       console.log("failed", errorInfo);
     },
-    change(index) {
+    async change(id,index) {
+      await SetDefaultAddress({ id,isDefault:true });
       this.addressList.forEach((v,i)=>{
-        v.isDefault=0
-        if(index==i) {
-          v.isDefault=1
+        if(i==index) {
+          v.is_default = true
+        }else {
+          v.is_default = false
         }
       })
     },
-    isHide() {
-      this.show=false
+    async isHide() {
+      let a = await getAddress();
+      this.addressList = a.data;
+      this.show = false;
     },
-    to(){
-      this.$router.push('/addAddress'+`?form=${this.$route.query.form}`)
-    }
+    to() {
+      this.$router.push("/addAddress" + `?form=${this.$route.query.form}`);
+      // this.$router.back();
+    },
+    // 删除地址
+    isdelete(id,is) {
+      Dialog.confirm({
+        title: "提示",
+        message: this.$t('add.Delete this address?'),
+      })
+        .then(async () => {
+          let a = await delAddress({
+            id,
+          });
+          if (a.code == 200) {
+            Toast.success(this.$t("add.Delete succeeded"));
+            // 获取新的地址 
+            let a = await getAddress();
+            this.addressList = a.data;
+            // 判断删除是否为默认地址如果为默认就将第一个设置为默认地址
+            if(is &&this.addressList[0]) {
+                await SetDefaultAddress({ id:this.addressList[0].id,isDefault:true });
+                this.addressList[0].is_default = true
+            }
+          }
+        })
+        .catch(() => {});
+    },
   },
 };
 </script>
@@ -152,12 +157,12 @@ export default {
 }
 .address {
   background-color: #f3f3f3;
-  padding: 50px 0;
-  min-height: 89vh;
+  // padding: 50px 0;
+  min-height: 88.5vh;
 }
 .add {
   width: 90%;
-  margin: 5% ;
+  margin: 5%;
   position: fixed;
   bottom: 0px;
   left: 0px;
@@ -174,11 +179,14 @@ export default {
 }
 .box {
   width: 80%;
-  margin: 5% auto;
+  margin: 15% auto 0;
   background-color: #fff;
   padding: 20px;
   font-weight: 600;
   border-radius: 10px;
+
+  
+
   .name {
     font-size: 18px;
     margin-right: 10px;
@@ -237,4 +245,8 @@ export default {
     }
   }
 }
+ .box:nth-child(n+4){
+    margin-top:6%
+  }
+
 </style>

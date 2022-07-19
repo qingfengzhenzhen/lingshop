@@ -37,7 +37,7 @@ Vue.directive('error', {
   inserted: function (el) {
     // 聚焦元素
     el.addEventListener('error',()=>{
-      el.src="http://shopmanage.oyguee.com/Resource/Photo/2021/11/08/26442832adc7478481f8dff865c1ae34.jpg"
+      el.src="./imgerror.png"
     })
   }
 })

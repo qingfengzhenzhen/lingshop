@@ -18,7 +18,16 @@ import { ActionSheet } from 'vant';
 import { List } from 'vant';
 import { PullRefresh } from 'vant';
 import { Cell } from 'vant';
+import { Picker } from 'vant';
+import { Overlay } from 'vant';
+import { Sidebar, SidebarItem } from 'vant';
+import { Slider } from 'vant';
 
+Vue.use(Slider);
+Vue.use(Sidebar);
+Vue.use(SidebarItem);
+Vue.use(Overlay);
+Vue.use(Picker);
 Vue.use(Cell);
 Vue.use(PullRefresh);
 Vue.use(List);

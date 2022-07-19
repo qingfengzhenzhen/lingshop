@@ -1,73 +1,150 @@
 <template>
   <div class="pay">
-    <van-nav-bar :title="$t('pay.Product details')" fixed left-arrow @click-left="onClickLeft" />
+    <van-nav-bar
+      :title="$t('pay.Product details')"
+      fixed
+      left-arrow
+      @click-left="onClickLeft"
+    />
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item><img src="@/assets/pay/111.jpg" alt="" /></van-swipe-item>
-      <van-swipe-item><img src="@/assets/pay/111.jpg" alt="" /></van-swipe-item>
-      <van-swipe-item><img src="@/assets/pay/111.jpg" alt="" /></van-swipe-item>
-      <van-swipe-item><img src="@/assets/pay/111.jpg" alt="" /></van-swipe-item>
+      <van-swipe-item v-for="(v, i) in bannerList" :key="i"
+        ><img :src="v" v-error alt=""
+      /></van-swipe-item>
     </van-swipe>
     <div class="box">
-      <h2>商品名称</h2>
+      <h2>{{ info.name }}</h2>
       <div class="info">
-        商品的信息商品的信息商品的信息商品的信息商品的信息商品的信息商品的信息
+        {{ info.descInfo }}
       </div>
       <div class="money">
-        <span>￥148.00</span>
-        <s>￥148.00</s>
+        <span
+          >￥{{
+            typeList[0]
+              ? typeList[0].sku[0].tPrice || typeList[0].sku[0].price
+              : 0
+          }}</span
+        >
+        <s v-if="typeList[0] ? typeList[0].sku[0].tPrice : 0"
+          >￥{{ typeList[0] ? typeList[0].sku[0].price : 0 }}</s
+        >
       </div>
       <div class="footer">
-        <div>{{$t('pay.check')}}：蓝色/白色</div>
+        <div>
+          {{ $t("pay.check") }}：{{
+            typeList[0] ? typeList[0].sku[0].specificName : 0
+          }}
+        </div>
         <div @click="isShow(1)">选择更多</div>
       </div>
     </div>
-    <div class="text">{{$t('pay.Product details')}}</div>
-    <div>
+    <div class="text">{{ $t("pay.Product details") }}</div>
+    <div ref="content" class="category" style="padding: 10px">
       <div class="key"><span>原产地: </span>111</div>
       <div class="key"><span>重量: </span>111</div>
       <div class="key"><span>商品用法: </span>111</div>
     </div>
 
-
-
     <div class="floor">
       <div class="box2">
-      <van-button type="danger" @click="isShow(2)">{{$t('pay.add to cart')}}</van-button>
-      <van-button  type="warning" @click="isShow(3)">{{$t('pay.Immediate purchase')}}</van-button>
+        <van-button type="danger" @click="isShow(2)">{{
+          $t("pay.add to cart")
+        }}</van-button>
+        <van-button type="warning" @click="isShow(3)">{{
+          $t("pay.Immediate purchase")
+        }}</van-button>
       </div>
     </div>
 
     <!-- 购物车弹出层 -->
-    <van-popup v-model="show" closeable round position="bottom" :style="{ height: '60%' }" >
-      <shop :isBtn="is" >
-      </shop>
+    <van-popup
+      v-model="show"
+      closeable
+      round
+      position="bottom"
+      :style="{ height: '60%' }"
+    >
+      <shop :isBtn="is" :data="typeList" :businessId="businessId"> </shop>
     </van-popup>
 
+    <!-- 遮罩层 -->
+    <van-overlay :show="show2" />
   </div>
-
 </template>
 
 <script>
-import shop from '@/components/shop.vue'
+import shop from "@/components/shop.vue";
+import { Toast } from "vant";
+import { getAttr, getInfo } from "@/api/pay.js";
 export default {
-  components:{
-    shop
+  components: {
+    shop,
   },
   data() {
     return {
-      show:false,
-      is:1
-    }
+      show: false, //购买组件
+      is: 1, //shop中的按钮
+      shopid: 0, // 商品id
+      typeList: [],
+      bannerList: [],
+      info: {
+        name: "",
+      },
+      businessId: 0,
+      show2: false,
+    };
+  },
+ async created() {
+    Toast.loading({
+      duration: 0,
+      message: "加载中...",
+      forbidClick: true,
+    });
+    this.show2 = true;
+
+    // 获取数据
+    this.shopid = this.$route.query.id;
+    await this.getData();
+
+    Toast.clear();
+    this.show2 = false;
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.back();
     },
     isShow(v) {
-      this.$router.go(1)
-      this.is = v
-      this.show=true
-    }
+      this.is = v;
+      this.show = true;
+    },
+    // 获取页面数据
+    async getData() {
+      let res = await getAttr({
+        id: this.shopid,
+      });
+      let res2 = await getInfo({
+        id: this.shopid,
+      });
+      console.log(res);
+      if (res.code == 200) {
+        res.data.forEach((v) => {
+          v.sku.forEach((v2) => {
+            v2.imagesUrls[0] = "http://8.129.38.70:8007" + v2.imagesUrls[0];
+            this.bannerList.push(v2.imagesUrls[0]);
+          });
+        });
+        this.typeList = res.data;
+      }
+      if (res2.code == 200) {
+        this.businessId = res2.data.business.id;
+        res2.data.image = "http://8.129.38.70:8007" + res2.image;
+        res2.data.imageList = res2.data.imageList.map((v) => {
+          return (v = "http://8.129.38.70:8007" + v);
+        });
+        this.info = res2.data;
+        this.$refs.content.innerHTML = this.info.remark;
+      }
+      console.log(res2);
+    },
   },
 };
 </script>
@@ -86,27 +163,34 @@ export default {
       color: rgb(0, 0, 0);
     }
   }
-  .van-button--danger,.van-button--warning{
+  .van-button--danger,
+  .van-button--warning {
     width: 140px;
     height: 30px;
   }
+  .my-swipe {
+  aspect-ratio: 1 / 1;
+  .van-swipe-item {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    max-height: 350px;
+    display: inline-block;
+  }
+}
 }
 .pay {
-  padding-top: 5vh;
+  padding: 5vh 0;
   background-color: #f7f7f7;
-  min-height: 95vh;
+  min-height: 90vh;
 }
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  height: 400px;
-  text-align: center;
-  background-color: #39a9ed;
-  display: inline-block;
-}
+
 .my-swipe img {
   width: 100%;
+  // max-height: 350px;
+  aspect-ratio: 1;
+  min-height: 200px;
+  object-fit: cover;
 }
 .key {
   padding: 2px 10px;
@@ -144,7 +228,7 @@ export default {
     padding: 10px;
     background-color: #f7f7f7;
     div:nth-child(1) {
-      flex:1
+      flex: 1;
     }
   }
 }
@@ -156,7 +240,7 @@ export default {
   text-align: center;
   color: #39a9ed;
 }
-.floor{
+.floor {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -167,7 +251,6 @@ export default {
     overflow: hidden;
     width: 280px;
     margin: 10px auto;
-
   }
 }
 </style>

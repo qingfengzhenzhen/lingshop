@@ -11,7 +11,9 @@
     "Pay attention to us":"關注我們",
     "the most popular commodities":"熱門商品",
     "Customer Testimonials":"客戶見證",
-    "customs clearance":"清關"
+    "customs clearance":"清關",
+    "News detail":"新聞詳情",
+    "commodity classification":"商品分類"
   },
   "user":{
     "changeLang":"切換語言",
@@ -20,7 +22,12 @@
     "editData":"編輯資料",
     "Address management":"地址管理",
     "purchase order":"采購訂單",
-    "log out":"推出登錄"
+    "log out":"推出登錄",
+    "About us":"關於我們",
+    "Company mailbox":"公司郵箱",
+    "contact number":"聯繫電話",
+    "contacts":"聯繫人",
+    "name of the company":"公司名稱"
   },
   "shopCart" :{
     "check all":"全選",
@@ -62,8 +69,7 @@
     "Select this address":"選擇該地址",
     "edit":"編輯",
     "delete":"刪除",
-    "delivery address":"收貨地址",
-    "number plate":"門牌號",
+    "number plate":"詳細地址",
     "cell-phone number":"手機號",
     "Check box group":"複選框組",
     "preserve":"保存",
@@ -111,5 +117,46 @@
     "add to cart":"加入購物車",
     "Immediate purchase":"立即購買",
     "count":"數量"
+  },
+  "edit":{
+    "pet name":"暱稱",
+    "mobile phone number":"手機號碼",
+    "account number":"賬號",
+    "email mailbox":"電子郵箱",
+    "Delete selected":"刪除已選擇?",
+    "Loading":"加載中"
+  },
+  "add":{
+    "Delete succeeded":"刪除成功",
+    "Cancel editing?":"是否取消編輯",
+    "Delete this order?":"是否刪除該訂單",
+    "Are you sure you want to log out?":"您確定要退出登錄嗎?",
+    "Exit successfully":"退出成功",
+    "Delete this address?":"是否刪除此地址？",
+    "Modified successfully":"修改成功",
+    "Shopping cart added successfully":"購物車加入成功",
+    "There is no default address Please go to the address management page to add an address first":"暫無默認地址，請先去地址管理页面添加地址",
+    "This commodity is temporarily out of stock.":"該商品暫無庫存",
+    "set up":"設置",
+    "Wrong password or account number":"密碼或賬號錯誤",
+    "Landing success":"登陸成功",
+    "Successfully registered, and logged in automatically":"註冊成功，已自動登錄",
+    "Account registered":"賬號已註冊",
+    "Search commodity name":"搜索商品名字",
+    "Click to enter":"點擊進入",
+    "Order data loss":"訂單數據丟失",
+    "Order submitted successfully":"訂單提交成功",
+    "Order submission failed":"訂單提交失敗",
+    "piece":"件",
+    "Expand size":"展开共",
+    "A total of":"共",
+    "items goods":"件商品",
+    "sum of money":"金額",
+    "pack up":"收起",
+    "No more":"沒有更多了",
+    "No address has been added yet":"還沒有添加地址",
+    "Go to add":"前往添加",
+    "pieces have been sold":"件已售出"
+
   }
 }

@@ -1,11 +1,30 @@
 <template>
   <div class="sell">
-    <div class="top"></div>
+    <div class="top">
+      <img
+        :src="banner.imageUrl"
+        alt=""
+        v-error
+        @click="goRouter(banner.linkUrl)"
+      />
+    </div>
     <div class="witnessList">
       <ul>
-        <li v-for="(v, i) in witnessList" :key="i">
+        <li
+          v-for="(v, i) in witnessList"
+          @click="
+            () => {
+              $router.push({ path: '/category', query: { id: v.id } });
+            }
+          "
+          :key="i"
+          :style="{
+            backgroundImage: `url(${v.imageUrl || error})`,
+            backgroundSize: '100% 100%',
+          }"
+        >
           <p class="title1">{{ v.title }}</p>
-          <p class="title2">{{v.title2}}</p>
+          <p class="title2">{{ v.descInfo }}</p>
           <div class="foolt">
             <span>点击进入</span>
           </div>
@@ -16,41 +35,67 @@
 </template>
 
 <script>
+import { GetNewList, getbanner } from "@/api/shop";
 export default {
   data() {
     return {
-      witnessList:[
-        {
-          title:'标题',
-          title2:'123'
-        },
-         {
-          title:'标题',
-          title2:'123'
-        },
-         {
-          title:'标题',
-          title2:'123'
-        },
-         {
-          title2:'123',
-          title:'标题'
-        }
-      ]
-    }
-  }
+      witnessList: [],
+      banner: {},
+      error: "",
+    };
+  },
+  async created() {
+    await this.get();
+  },
+  methods: {
+    async get() {
+      let newList = await GetNewList({
+        CategoryId: 5,
+      });
+      let bannerList = await getbanner({
+        categoryId: 5,
+      });
+      if (bannerList.code == 200) {
+        bannerList.data.forEach((v) => {
+          v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+        });
+        this.banner = bannerList.data[0];
+      }
+
+
+      if (newList.code == 200) {
+       this.witnessList= newList.data.filter((v) => {
+          if (v.imageUrl) {
+            v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+          }
+          if (v.status) {
+            return true;
+          }
+        });
+      }
+    },
+    goRouter(to) {
+      if (to) {
+        window.location.href = to;
+      }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .sell {
-  padding:0 20px 60px;
+  padding: 0 20px 60px;
 }
 .top {
   height: 120px;
-  background-color: red;
   border-radius: 20px;
   margin: 20px 0;
+  overflow: hidden;box-shadow: 1px 1px 6px 1px #aaa;
+  img {
+    width: 100%;
+    height: 100%;object-fit: cover;
+  }
 }
 .witnessList {
   ul {
@@ -59,7 +104,6 @@ export default {
       float: left;
       width: 49%;
       height: 130px;
-      background-color: rgb(253, 180, 180);
       margin: 4px 0;
       position: relative;
       overflow: hidden;
@@ -74,7 +118,6 @@ export default {
       .foolt {
         padding: 3px 5px;
         display: inline-block;
-        background-color: #e3adac;
         margin-left: 10px;
         border: 1px #e3ada1 solid;
         span {
