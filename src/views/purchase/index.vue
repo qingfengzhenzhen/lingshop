@@ -227,12 +227,15 @@ export default {
   }
 }
 .funList {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid: 'myArea myArea myArea myArea';
+  grid-template-columns: 25% 25% 25% 25%;
+  // justify-content: space-between;
+  overflow: hidden;
+  // flex-wrap: wrap;
   .fun {
+    float: left;
     margin: 10px 0;
-    width: 25%;
     text-align: center;
     img {
       width: 100%;

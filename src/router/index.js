@@ -200,16 +200,23 @@ const router = new VueRouter({
   routes
 })
 
-
-
 router.beforeEach((to, from, next) => {
   if (to.path == '/login'&&from.path) {
     if(localStorage.getItem("tk")) {
       Toast.success('您已经登录')
       next(from.path)
     }
-  } 
+  }
+  if(localStorage.getItem("tk")) {
+    next();
+  }else {
+    if(to.path == '/login'||to.path == '/home'||to.path == '/purchase'||to.path == '/sell'||to.path == '/society'||to.path == '/user'||to.path == '/settings'||to.path == '/aboutUs'||to.path == '/shopCart'||to.path == '/paylist'||to.path == '/pay'||to.path == '/category'||to.path == '/witnessList') {
       next();
+    }else {
+      Toast.fail('请先登录')
+      next('/login');
+    }
+  }
 });
 
 
