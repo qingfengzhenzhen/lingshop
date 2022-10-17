@@ -21,7 +21,7 @@
           @load="onLoad"
         >
           <!-- 标签选择 -->
-          <van-tab :title="$t('logistics.Unscheduled')">
+          <van-tab v-for="item,index in tabList" :key="index" :title="item.title">
             <div class="box">
               <div class="top">
                 <div>
@@ -93,9 +93,6 @@
               </div>
             </div>
           </van-tab>
-          <van-tab :title="$t('logistics.Arrange')">内容 2</van-tab>
-          <van-tab :title="$t('logistics.off the stocks')">内容 3</van-tab>
-          <van-tab :title="$t('logistics.all')">内容 4</van-tab>
         </van-list>
       </van-pull-refresh>
     </van-tabs>
@@ -113,6 +110,21 @@ export default {
       finished: false,
       refreshing: false,
       page: 0,
+      // tab列表
+      tabList:[
+        {
+          title:this.$t('logistics.Unscheduled')
+        },
+         {
+          title:this.$t('logistics.Arrange')
+        },
+         {
+          title:this.$t('logistics.off the stocks')
+        },
+         {
+          title:this.$t('logistics.all')
+        },
+      ]
     };
   },
   methods: {

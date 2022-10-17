@@ -1,4 +1,4 @@
-jieshao.png<template>
+<template>
   <div class="box">
     <div class="bgc">
       <!-- 搜索框 -->
@@ -50,70 +50,7 @@ jieshao.png<template>
         </div>
       </div>
     </div>
-    <div class="bgc">
-      <div
-        class="introduce"
-        @click="
-          show2 = true;
-          $refs.vdo.src = info.video;
-        "
-      >
-        <img :src="info.vBgImage" alt="" />
-      </div>
-      <div class="title">
-        {{ $t("home.contact us") }}
-        <div></div>
-      </div>
-      <div
-        class="my"
-        :style="{
-          backgroundImage: `url(${info.bgImage || error})`,
-          backgroundSize: '100% 100%',
-        }"
-      >
-        <div class="children">
-          <span> {{$t("user.name of the company")}}: </span>
-          <span>
-            {{ info.companyName }}
-          </span>
-        </div>
-        <div class="children">
-          <span> {{$t("user.Company mailbox")}}: </span>
-          <span>
-            {{ info.email }}
-          </span>
-        </div>
-        <div class="children">
-          <span> {{$t("user.contact number")}}: </span>
-          <span>
-            {{ info.phone }}
-          </span>
-        </div>
-        <div class="children">
-          <span> {{$t("user.contacts")}}: </span>
-          <span>
-            {{ info.person }}
-          </span>
-        </div>
-      </div>
-      <div class="title">
-        {{ $t("home.Pay attention to us") }}
-        <div></div>
-      </div>
-      <!-- 关注列表 -->
-      <div class="funList">
-        <div v-for="(v, i) in interestArr" :key="i" class="fun">
-          <div class="icon2">
-            <van-image
-              @click="goRouter(v.link)"
-              cover
-              :src="v.logo"
-              :alt="v.alt"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+   
     <!-- 热门商品 -->
     <div class="bgc">
       <div class="title" @click="toList()">
@@ -181,6 +118,71 @@ jieshao.png<template>
           </li>
         </ul>
       </div>
+    </div>
+     <div class="bgc">
+      <div
+        class="introduce"
+        @click="
+          show2 = true;
+          $refs.vdo.src = info.video;
+        "
+      >
+        <img :src="info.vBgImage" alt="" />
+      </div>
+      <div class="title">
+        {{ $t("home.Pay attention to us") }}
+        <div></div>
+      </div>
+      <!-- 关注列表 -->
+      <div class="funList">
+        <div v-for="(v, i) in interestArr" :key="i" class="fun">
+          <div class="icon2">
+            <van-image
+              @click="goRouter(v.link)"
+              cover
+              :src="v.logo"
+              :alt="v.alt"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="title">
+        {{ $t("home.contact us") }}
+        <div></div>
+      </div>
+      <div
+        class="my"
+        :style="{
+          backgroundImage: `url(${info.bgImage || error})`,
+          backgroundSize: '100% 100%',
+        }"
+      >
+        <div class="children">
+          <span> {{$t("user.name of the company")}}: </span>
+          <span>
+            {{ info.companyName }}
+          </span>
+        </div>
+        <div class="children">
+          <span> {{$t("user.Company mailbox")}}: </span>
+          <span>
+            {{ info.email }}
+          </span>
+        </div>
+        <div class="children">
+          <span> {{$t("user.contact number")}}: </span>
+          <span>
+            {{ info.phone }}
+          </span>
+        </div>
+        <div class="children">
+          <span> {{$t("user.contacts")}}: </span>
+          <span>
+            {{ info.person }}
+          </span>
+        </div>
+      </div>
+      
     </div>
     <van-overlay :show="show" />
     <van-overlay :show="show2" @click="Unshow">
@@ -413,6 +415,7 @@ export default {
 }
 .box {
   background-color: #eee;
+  margin-bottom: 60px;
 }
 .bgc {
   overflow: hidden;
@@ -630,7 +633,6 @@ export default {
     li:nth-child(2n-1) {
       margin-right: 6%;
     }
-    padding-bottom: 50px;
   }
 }
 .wrapper {
