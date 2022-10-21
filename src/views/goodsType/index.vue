@@ -41,7 +41,7 @@
 
 <script>
 import { Toast } from "vant";
-import { GetProductByCategory, GetCategoryAll } from "@/api/pay";
+import { GetProductByCategory, GetCategory } from "@/api/pay";
 export default {
   data() {
     return {
@@ -64,8 +64,10 @@ export default {
     // id 的获取
     let id = localStorage.getItem("id")||this.$route.query.id
 
-
-    let category = await GetCategoryAll({businessid:1});
+    let category = await GetCategory({
+       isAll:true
+    });
+    // let category = await GetCategoryAll({businessid:1});
     if (category.code == 200) {
       category.data.forEach((v, i) => {
         if (v.id == id) {

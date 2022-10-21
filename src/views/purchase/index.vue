@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { getPay, getbanner } from "@/api/shop";
+import { getPay, getbanner,GetBusinessList } from "@/api/shop";
 import {  GetCategory } from "@/api/pay";
 import { Toast } from "vant";
 export default {
@@ -127,6 +127,9 @@ export default {
           upEmpId: 0,
         },
       ],
+      businessList:{
+
+      }
     };
   },
   async created() {
@@ -156,7 +159,12 @@ export default {
       });
       this.shopList = res.data;
     }
-
+    //获取品牌
+    let Business = await GetBusinessList({
+      brand:true
+    })
+    console.log(Business);
+    this.businessList = Business.data
     // 获取轮播图
     let bannerList = await getbanner({
       categoryId: 8,
@@ -171,7 +179,9 @@ export default {
       this.banner.push(...bannerList.data);
     }
 
-    let category = await GetCategory({});
+    let category = await GetCategory({
+       parentId:0
+    });
     if (category.code == 200) {
       category.data.forEach((v) => {
         v.icon = "http://8.129.38.70:8007" + v.icon;

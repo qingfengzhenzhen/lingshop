@@ -15,6 +15,13 @@ export const getbanner = (params) => ajax({
     params
 })
 
+//获取品牌商
+export const GetBusinessList = (params) => ajax({
+    method: 'get',
+    url: '/Product/GetBusinessList',
+    params
+})
+
 // 获取功能列表图标
 // export const geticon = (params) => ajax({
 //     method: 'get',
@@ -37,8 +44,6 @@ export const GetCategory = (params) => ajax({
     url: '/Storge/GetCategory',
     params
 })
-
-
 
 
 // 下单
