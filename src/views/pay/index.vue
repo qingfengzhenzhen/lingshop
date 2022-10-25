@@ -128,7 +128,7 @@ export default {
       if (res.code == 200) {
         res.data.forEach((v) => {
           v.sku.forEach((v2) => {
-            v2.imagesUrls[0] = "http://8.129.38.70:8007" + v2.imagesUrls[0];
+            v2.imagesUrls[0] = window.$http + v2.imagesUrls[0];
             this.bannerList.push(v2.imagesUrls[0]);
           });
         });
@@ -136,9 +136,9 @@ export default {
       }
       if (res2.code == 200) {
         this.businessId = res2.data.business.id;
-        res2.data.image = "http://8.129.38.70:8007" + res2.image;
+        res2.data.image = window.$http + res2.image;
         res2.data.imageList = res2.data.imageList.map((v) => {
-          return (v = "http://8.129.38.70:8007" + v);
+          return (v = window.$http + v);
         });
         this.info = res2.data;
         this.$refs.content.innerHTML = this.info.remark;

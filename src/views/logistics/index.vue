@@ -153,7 +153,7 @@ export default {
       });
       if (res.code == 200) {
         res.data.forEach((v) => {
-          v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+          v.imageUrl = window.$http + v.imageUrl;
         });
         let count = res.totalCount;
         this.loading = false;

@@ -66,7 +66,7 @@ export default {
       });
       if (res.code == 200) {
         res.data.forEach((v) => {
-          v.image = "http://8.129.38.70:8007" + v.image;
+          v.image = window.$http + v.image;
         });
         let count = res.totalCount;
         this.list.push(...res.data);

@@ -32,6 +32,6 @@ export const GetCategoryAll = (params) => ajax({
 // 根据分类来获取商品
 export const GetProductByCategory = (params) => ajax({
     method: 'get',
-    url: '/Product/GetProductByCategory',
+    url: '/Product/GetProductByCategoryV2',
     params
 })

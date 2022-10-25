@@ -210,7 +210,7 @@ router.beforeEach((to, from, next) => {
   if(localStorage.getItem("tk")) {
     next();
   }else {
-    if(to.path == '/login'||to.path == '/home'||to.path == '/purchase'||to.path == '/sell'||to.path == '/society'||to.path == '/user'||to.path == '/settings'||to.path == '/aboutUs'||to.path == '/shopCart'||to.path == '/paylist'||to.path == '/pay'||to.path == '/category'||to.path == '/witnessList') {
+    if(to.path == '/login'||to.path == '/goodsType'||to.path == '/home'||to.path == '/purchase'||to.path == '/sell'||to.path == '/society'||to.path == '/user'||to.path == '/settings'||to.path == '/aboutUs'||to.path == '/shopCart'||to.path == '/paylist'||to.path == '/pay'||to.path == '/category'||to.path == '/witnessList') {
       next();
     }else {
       Toast.fail('请先登录')

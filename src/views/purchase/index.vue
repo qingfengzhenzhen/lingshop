@@ -40,6 +40,43 @@
         </div>
       </div>
     </div>
+
+    <van-swipe
+        :show-indicators="false"
+        indicator-color="white"
+        :loop="false"
+      >
+        <van-swipe-item
+          v-for="v,i in businessList"
+          :key="i"
+          >
+          <div  class="funList">
+             <div
+                v-for="(v2, i2) in v"
+                :key="i2"
+                class="fun2"
+                    @click="
+                  () => {
+                    $router.push({path:'/goodsType',query:{
+                      id:v2.id
+                    }});
+                  }
+                "
+              >
+                <div class="icon">
+                  <img :src="v2.portrait" alt="" v-error/>
+                </div>
+                <p>
+                  {{ v2.name }}
+                </p>
+              </div>
+          </div>
+        </van-swipe-item>
+      </van-swipe>
+
+
+
+
     <!-- 热门商品 -->
     <div class="bgc">
       <div class="title" @click="toList()">
@@ -127,9 +164,7 @@ export default {
           upEmpId: 0,
         },
       ],
-      businessList:{
-
-      }
+      businessList:[]
     };
   },
   async created() {
@@ -154,7 +189,7 @@ export default {
     if (res.code == 200) {
       res.data.forEach((v) => {
         if(v.image) {
-          v.image = "http://8.129.38.70:8007" + v.image;
+          v.image = window.$http + v.image;
         }
       });
       this.shopList = res.data;
@@ -163,8 +198,21 @@ export default {
     let Business = await GetBusinessList({
       brand:true
     })
-    console.log(Business);
-    this.businessList = Business.data
+    Business.data.forEach((v)=>[
+      v.portrait = window.$http + v.portrait
+    ])
+    let a = true 
+    while (a) {
+      if(Business.data.length>=8) {
+        this.businessList.push(Business.data.splice(0,8)) 
+      }else {
+        a =false
+      }
+    }
+    this.businessList.push(Business.data) 
+    console.log(this.businessList);
+
+
     // 获取轮播图
     let bannerList = await getbanner({
       categoryId: 8,
@@ -173,7 +221,7 @@ export default {
       this.banner = [];
       bannerList.data.forEach((v) => {
         if(v.imageUrl) {
-          v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+          v.imageUrl = window.$http + v.imageUrl;
         }
       });
       this.banner.push(...bannerList.data);
@@ -184,7 +232,7 @@ export default {
     });
     if (category.code == 200) {
       category.data.forEach((v) => {
-        v.icon = "http://8.129.38.70:8007" + v.icon;
+        v.icon = window.$http + v.icon;
       });
       this.funArr = category.data;
     }
@@ -260,6 +308,15 @@ export default {
       overflow: hidden;
     }
   }
+  .fun2 {
+     img {
+      width: 100%;
+      height: 100%;
+    }
+    padding: 10px;
+    font-size: 12px;
+    color:#000
+  }
 }
 .my-swipe {
   height: 160px;
@@ -272,7 +329,6 @@ export default {
 .my-swipe .van-swipe-item {
   color: #fff;
   font-size: 20px;
-  line-height: 150px;
   width: 120px;
   height: 200px;
   text-align: center;

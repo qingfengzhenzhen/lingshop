@@ -31,7 +31,11 @@ locale: localStorage.getItem('lang')||'zh', // 定义默认语言为中文简体
     zh,tw
   }
 })
-// Vue.prototype.$http.setI18n(i18n);
+
+
+window.$http ="http://8.129.38.70:8007"
+
+// Vue.prototype.window.$http.setI18n(i18n);
 Vue.directive('error', {
   // 当被绑定的元素插入到 DOM 中时……
   inserted: function (el) {

@@ -35,7 +35,7 @@ export default {
       if (newList.code == 200) {
                this.list = newList.data.filter((v) => {
           if (v.imageUrl) {
-            v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+            v.imageUrl = window.$http + v.imageUrl;
           }
           if (v.status) {
             return true;

@@ -156,7 +156,7 @@ export default {
       if (a.code == 200) {
         console.log(a.data);
         a.data.forEach((v) => {
-          v.product.image = "http://8.129.38.70:8007" + v.product.image;
+          v.product.image = window.$http + v.product.image;
         });
         this.allPage = a.totalCount;
         this.list = a.data;
@@ -228,7 +228,7 @@ export default {
       });
       if (a.code == 200) {
         a.data.forEach((v) => {
-          v.product.image = "http://8.129.38.70:8007" + v.product.image;
+          v.product.image = window.$http + v.product.image;
         });
 
         this.list.push(...a.data);

@@ -7,21 +7,38 @@
       fixed
     />
     <van-sidebar v-model="activeKey" @change="chenge()">
-      <van-sidebar-item v-for="(v, i) in typeList" :key="i" :title="v.name" />
+      <van-sidebar-item v-for="(v, i) in goodsType" :key="i" :title="v.name" />
     </van-sidebar>
     <div class="content">
-      <van-sidebar v-model="type" @change="chenge2()">
+      <van-sidebar v-model="type" v-if="typeList[0]" @change="chenge2()">
         <van-sidebar-item
-          v-for="(v, i) in goodsType"
+          v-for="(v, i) in typeList"
           :key="i"
-          :title="v.featuresName"
+          :title="v.name"
         />
       </van-sidebar>
     </div>
-    <div class="content2">
+    <div class="content2" style="width:80.4%" v-if="shop[0]">
       <ul>
         <li
-          v-for="(v, i) in goodsType[type] ? goodsType[type].items : []"
+          v-for="(v, i) in shop"
+          :key="i"
+          @click="()=>{$router.push({
+            path:'/pay',
+            query:{
+              id:v.id
+            }
+          })}"
+        >
+          <img :src="v.image" v-error alt="" />
+          <p class="van-ellipsis">{{v.productName}}</p>
+        </li>
+      </ul>
+    </div>
+    <div class="content2" v-else-if="shop2[0]"  >
+      <ul>
+        <li
+          v-for="(v, i) in shop2"
           :key="i"
           @click="()=>{$router.push({
             path:'/pay',
@@ -45,12 +62,14 @@ import { GetProductByCategory, GetCategory } from "@/api/pay";
 export default {
   data() {
     return {
-      activeKey: 0,
+      activeKey: 10,
       typeList: [],
       goodsType: [],
       id: "",
       show: false,
       type: 0,
+      shop:[],
+      shop2:[]
     };
   },
   async created() {
@@ -61,22 +80,27 @@ export default {
     });
     this.show = true;
 
-    // id 的获取
-    let id = localStorage.getItem("id")||this.$route.query.id
+    // id 的获取'
+
+    let id = this.$route.query.id
 
     let category = await GetCategory({
-       isAll:true
+      parentId:id
     });
     // let category = await GetCategoryAll({businessid:1});
     if (category.code == 200) {
       category.data.forEach((v, i) => {
         if (v.id == id) {
-          this.activeKey = i;
+          this.goodsType =[v]
         }
       });
-      this.typeList = category.data;
+      this.goodsType = category.data;
     }
-    await this.getData(id);
+    let res = await GetProductByCategory({
+        categoryId:id
+    });
+    this.shop = res.data
+
     this.show = false;
     Toast.clear();
   },
@@ -92,26 +116,67 @@ export default {
         forbidClick: true,
       });
       this.show = true;
-     localStorage.setItem("id",this.typeList[this.activeKey].id)
-      await this.getData(this.typeList[this.activeKey].id);
+      // localStorage.setItem("id",this.goodsType[this.activeKey].featuresId)
+        await this.getData(this.goodsType[this.activeKey].id
+      ,'1');
       Toast.clear();
       this.show = false;
     },
-    chenge2() {
+    async chenge2() {
+     let res = await GetProductByCategory({
+        categoryId: this.typeList[this.type].id
+      });
+      this.shop = res.data
     },
 
-    async getData(id) {
-      let categoryInfo = await GetProductByCategory({
-        categoryId: id,
-      });
-      if (categoryInfo.code == 200) {
-        this.goodsType = categoryInfo.data;
-        if (this.goodsType[this.type]) {
-          this.goodsType[this.type].items.forEach((v) => {
-            v.image = "http://8.129.38.70:8007" + v.image;
+    async getData(id,is) {
+      if(is) {
+        let category = await GetCategory({
+          parentId:id
+        });
+        // let category = await GetCategoryAll({businessid:1});
+        if (category.code == 200) {
+          category.data.forEach((v, i) => {
+            if (v.id == id) {
+              this.type = 0;
+              this.typeList =[v]
+            }
           });
+          this.typeList = category.data;
         }
       }
+        let res = await GetProductByCategory({
+          categoryId:id
+        });
+        this.shop = []
+        this.shop2 = res.data
+    
+    //   let categoryInfo = await GetProductByCategory({
+    //     categoryId: id,
+    //   });
+    //   if (categoryInfo.code == 200) {
+    //     if(is) {
+    //        this.typeList = categoryInfo.data;
+    //       if (this.typeList[this.type]) {
+    //       this.typeList[this.type].items.forEach((v) => {
+    //         v.image = window.$http + v.image;
+    //       });
+    //       }
+    //       if(this.typeList[0]) {
+    //         let res = await GetProductByCategory({
+    //             categoryId: this.typeList[0].featuresId,
+    //         });
+    //         this.shop = res.data
+    //       }
+    //     }else {
+    //       this.goodsType = categoryInfo.data;
+    //       //  if (this.goodsType[this.activeKey]) {
+    //       //   this.goodsType[this.activeKey].forEach((v) => {
+    //       //   v.image = window.$http + v.image;
+    //       // });
+    //       // }
+    //     }
+    //   }
     },
   },
 };

@@ -109,7 +109,9 @@
     "account number":"账号",
     "password":"请输入密码",
     "Please enter a":"请输入",
-    "pattern":"密码格式为6-12位任意非空字符"
+    "pattern":"密码格式为6-12位任意非空字符",
+    "Purchase":"采购需求",
+    "country":"国家"
   },
   "pay":{
     "Product details":"商品详情",

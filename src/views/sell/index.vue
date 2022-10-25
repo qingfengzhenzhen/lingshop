@@ -57,7 +57,7 @@ export default {
       });
       if (bannerList.code == 200) {
         bannerList.data.forEach((v) => {
-          v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+          v.imageUrl = window.$http + v.imageUrl;
         });
         this.banner = bannerList.data[0];
       }
@@ -66,7 +66,7 @@ export default {
       if (newList.code == 200) {
        this.witnessList= newList.data.filter((v) => {
           if (v.imageUrl) {
-            v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+            v.imageUrl = window.$http + v.imageUrl;
           }
           if (v.status) {
             return true;

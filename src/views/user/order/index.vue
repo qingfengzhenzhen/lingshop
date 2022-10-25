@@ -161,7 +161,7 @@ export default {
           v.items[0].items.forEach((v2) => {
             allMon += (v2.price || v2.yPrice) * v2.numbers;
             num += v2.numbers;
-            let src = "http://8.129.38.70:8007" + v2.image;
+            let src = window.$http + v2.image;
             children.push({
               title: v2.productName,
               color: v2.specificName,

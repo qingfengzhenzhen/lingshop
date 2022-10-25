@@ -7,33 +7,102 @@
       @click-left="onClickLeft"
     />
     <van-form @submit="onSubmit">
+      <!-- 昵称 -->
       <van-field
         v-if="!iscli"
-        v-model="nickName"
-        name="nickName"
-        :label="$t('login.user name')"
-        :placeholder="$t('login.Please enter a') + $t('login.user name')"
-        :rules="[{ required: true, message: $t('login.Please enter a') + $t('login.user name') }]"
+        v-model="NickName"
+        name="NickName"
+        :label="$t('edit.pet name')"
+        :placeholder="$t('login.Please enter a') + $t('edit.pet name')"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('edit.pet name'),
+          },
+        ]"
       />
+      <!-- 账号 -->
       <van-field
         v-model="account"
         type="account"
         name="account"
         :label="$t('login.account number')"
         :placeholder="$t('login.Please enter a') + $t('login.account number')"
-        :rules="[{ required: true, message: $t('login.Please enter a') + $t('login.account number') }]"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('login.account number'),
+          },
+        ]"
       />
+      <!-- 密码 -->
       <van-field
         v-model="password"
-        type="password"
         name="pwd"
+        type="password"
         :label="$t('login.password')"
-        :placeholder="$t('login.Please enter a') + $t('login.password')"
+        :placeholder=" $t('login.password')"
         :rules="[
           {
             required: true,
             pattern,
             message: $t('login.pattern'),
+          },
+        ]"
+      />
+      <!-- 国家 -->
+      <van-field
+        v-if="!iscli"
+        v-model="Country"
+        name="Country"
+        :label="$t('login.country')"
+        :placeholder="$t('login.Please enter a') + $t('login.country')"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('login.country'),
+          },
+        ]"
+      />
+      <!-- 手机号码 -->
+      <van-field
+        v-if="!iscli"
+        v-model="phone"
+        name="Phone"
+        :label="$t('edit.mobile phone number')"
+        :placeholder="$t('login.Please enter a') + $t('edit.mobile phone number')"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('edit.mobile phone number'),
+          },
+        ]"
+      />
+      <!-- 采购需求 -->
+      <van-field
+        v-if="!iscli"
+        v-model="Demand"
+        name="Demand"
+        :label="$t('login.Purchase')"
+        :placeholder="$t('login.Please enter a') + $t('login.Purchase')"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('login.Purchase'),
+          },
+        ]"
+      />
+      <!-- 邮箱 -->
+      <van-field
+        v-if="!iscli"
+        v-model="Email"
+        name="Email"
+        :label="$t('edit.email mailbox')"
+        :placeholder="$t('login.Please enter a') + $t('edit.email mailbox')"
+        :rules="[
+          {
+            required: true,
+            message: $t('login.Please enter a') + $t('edit.email mailbox'),
           },
         ]"
       />
@@ -64,6 +133,11 @@ export default {
       nickName: "",
       password: "",
       account: "",
+      NickName: "",
+      Country: "",
+      phone: "",
+      Demand: "",
+      Email: "",
       iscli: true,
       pattern: /^\S{6,12}$/,
     };
@@ -73,7 +147,7 @@ export default {
     async onSubmit(values) {
       Toast.loading({
         duration: 0,
-        message: this.$t('edit.Loading'),
+        message: this.$t("edit.Loading"),
         forbidClick: true,
       });
       let data;
@@ -81,9 +155,12 @@ export default {
         // this.$refs.btn.type="info"
         // this.$refs.btn.loadingText="加载中..."
         data = await login(values);
-          Toast.clear();
+        Toast.clear();
         if (data.code == 414) {
-          Notify({ type: "warning", message: this.$t('add.Wrong password or account number')});
+          Notify({
+            type: "warning",
+            message: this.$t("add.Wrong password or account number"),
+          });
           return;
         } else if (data.code == 200) {
           Notify({ type: "success", message: this.$t("add.Landing success") });
@@ -92,10 +169,18 @@ export default {
         data = await Register(values);
         Toast.clear();
         if (data.code == 200) {
-          Notify({ type: "success", message: this.$t("add.Successfully registered, and logged in automatically") });
+          Notify({
+            type: "success",
+            message: this.$t(
+              "add.Successfully registered, and logged in automatically"
+            ),
+          });
         } else if (data.code == 414) {
-          Notify({ type: "danger", message:this.$t("add.Account registered") });
-          return
+          Notify({
+            type: "danger",
+            message: this.$t("add.Account registered"),
+          });
+          return;
         }
       }
       localStorage.setItem("tk", data.token || data.data.token);
@@ -113,7 +198,7 @@ export default {
     change() {
       if (this.iscli) {
         this.iscli = false;
-        this.nickName = "";
+        this.NickName = "";
         this.password = "";
         this.account = "";
       }

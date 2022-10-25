@@ -30,7 +30,9 @@
         </van-swipe>
       </div>
       <!-- 功能列表 -->
-      <div class="funList">
+      <img style="width:100%;margin:10px 0" :src="info.register" alt="">
+
+      <!-- <div class="funList">
         <div
           v-for="(v, i) in funArr"
           @click="goRouter(v.linkUrl)"
@@ -48,7 +50,7 @@
             {{ v.name }}
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
    
     <!-- 热门商品 -->
@@ -310,13 +312,13 @@ export default {
 
     if (res.code == 200) {
       res.data.forEach((v) => {
-        v.image = "http://8.129.38.70:8007" + v.image;
+        v.image = window.$http + v.image;
       });
       this.shopList = res.data;
     }
     if (banner.code == 200) {
       banner.data.forEach((v) => {
-        v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+        v.imageUrl = window.$http + v.imageUrl;
       });
       this.bannerList = banner.data;
     }
@@ -331,7 +333,7 @@ export default {
     if (newList.code == 200) {
       this.witnessList = newList.data.filter((v) => {
         if (v.imageUrl) {
-          v.imageUrl = "http://8.129.38.70:8007" + v.imageUrl;
+          v.imageUrl = window.$http + v.imageUrl;
         }
         if (v.status) {
           return true;
@@ -343,7 +345,7 @@ export default {
     let plugins = await GetPlugins();
     if (plugins.code == 200) {
       plugins.data.forEach((v) => {
-        v.logo = "http://8.129.38.70:8007" + v.logo;
+        v.logo = window.$http + v.logo;
       });
       this.interestArr = plugins.data;
     }
@@ -352,22 +354,23 @@ export default {
     let a = await GetCompanyInfo();
     if (a.code == 200) {
       this.info = a.data;
-      this.info.bgImage = "http://8.129.38.70:8007" + this.info.bgImage;
-      this.info.vBgImage = "http://8.129.38.70:8007" + this.info.vBgImage;
-      this.info.video = "http://8.129.38.70:8007" + this.info.video;
+      this.info.bgImage = window.$http + this.info.bgImage;
+      this.info.vBgImage = window.$http + this.info.vBgImage;
+      this.info.register = window.$http + this.info.registerImage;
+      this.info.video = window.$http + this.info.video;
     }
     // 图标
-    let category = await GetCategory({
-      parentId: 0,
-      PageIndex: 1,
-      PageSize: 4,
-    });
-    if (category.code == 200) {
-      category.data.forEach((v) => {
-        v.icon = "http://8.129.38.70:8007" + v.icon;
-      });
-      this.funArr = category.data;
-    }
+    // let category = await GetCategory({
+    //   parentId: 0,
+    //   PageIndex: 1,
+    //   PageSize: 4,
+    // });
+    // if (category.code == 200) {
+    //   category.data.forEach((v) => {
+    //     v.icon = window.$http + v.icon;
+    //   });
+    //   this.funArr = category.data;
+    // }
     this.$refs.vdo.pause();
     Toast.clear();
     this.show = false;

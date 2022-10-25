@@ -109,7 +109,9 @@
     "account number":"賬號",
     "password":"密碼",
     "Please enter a":"請輸入",
-    "pattern":"密碼格式為6-12位非空字符"
+    "pattern":"密碼格式為6-12位非空字符",
+    "Purchase":"採購需求",
+    "country":"國家"
   },
   "pay":{
     "Product details":"商品詳情",
