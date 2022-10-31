@@ -201,12 +201,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/login'&&from.path) {
-    if(localStorage.getItem("tk")) {
-      Toast.success('您已经登录')
-      next(from.path)
-    }
-  }
+  // if (to.path == '/login'&&from.path) {
+  //   if(localStorage.getItem("tk")) {
+  //     Toast.success('您已经登录')
+  //     next(from.path)
+  //   }
+  // }
   if(localStorage.getItem("tk")) {
     next();
   }else {

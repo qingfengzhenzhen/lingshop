@@ -62,12 +62,12 @@ import { GetProductByCategory, GetCategory } from "@/api/pay";
 export default {
   data() {
     return {
-      activeKey: 10,
+      activeKey: 999,
       typeList: [],
       goodsType: [],
       id: "",
       show: false,
-      type: 0,
+      type: 999,
       shop:[],
       shop2:[]
     };
@@ -99,6 +99,9 @@ export default {
     let res = await GetProductByCategory({
         categoryId:id
     });
+    res.data.forEach((v)=>{
+        v.image = window.$http +v.image
+    })
     this.shop = res.data
 
     this.show = false;
@@ -109,7 +112,7 @@ export default {
       this.$router.back();
     },
     async chenge() {
-      this.type=0
+      this.type = 999
       Toast.loading({
         duration: 0,
         message: this.$t('edit.Loading'),
@@ -126,7 +129,10 @@ export default {
      let res = await GetProductByCategory({
         categoryId: this.typeList[this.type].id
       });
-      this.shop = res.data
+       res.data.forEach((v)=>{
+        v.image = window.$http +v.image
+    })
+      this.shop2 = res.data
     },
 
     async getData(id,is) {
@@ -138,7 +144,6 @@ export default {
         if (category.code == 200) {
           category.data.forEach((v, i) => {
             if (v.id == id) {
-              this.type = 0;
               this.typeList =[v]
             }
           });
@@ -148,6 +153,9 @@ export default {
         let res = await GetProductByCategory({
           categoryId:id
         });
+         res.data.forEach((v)=>{
+            v.image = window.$http +v.image
+        })
         this.shop = []
         this.shop2 = res.data
     
@@ -229,6 +237,7 @@ export default {
       img {
         width: 100%;
         height: 120px;
+        object-fit: cover;
       }
     }
     li:nth-child(2n) {

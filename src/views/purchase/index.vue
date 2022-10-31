@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-
+<div class="bgc" style="backgroundColor:#fff">
     <van-swipe
         :show-indicators="false"
         indicator-color="white"
@@ -73,8 +73,7 @@
           </div>
         </van-swipe-item>
       </van-swipe>
-
-
+</div>
 
 
     <!-- 热门商品 -->
@@ -284,6 +283,7 @@ export default {
     background-color: #eee;
   }
 }
+
 .funList {
   display: grid;
   grid: 'myArea myArea myArea myArea';
@@ -295,6 +295,11 @@ export default {
     float: left;
     margin: 10px 0;
     text-align: center;
+    p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
     img {
       width: 100%;
       height: 100%;
@@ -310,8 +315,14 @@ export default {
   }
   .fun2 {
      img {
-      width: 100%;
+      width: 90%;
+      margin: 0 auto;
       height: 100%;
+    }
+     p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     padding: 10px;
     font-size: 12px;
@@ -387,7 +398,7 @@ export default {
       }
 
       .text2 {
-        font-size: 14px;
+        font-size: 14px; 
         color: #999;
       }
       .shop {

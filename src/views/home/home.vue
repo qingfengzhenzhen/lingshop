@@ -30,7 +30,9 @@
         </van-swipe>
       </div>
       <!-- 功能列表 -->
-      <img style="width:100%;margin:10px 0" :src="info.register" alt="">
+      <img @click="$router.push({path:'/login',query:{
+        is:1
+      }})" style="width:100%;margin:10px 0" :src="info.register" alt="">
 
       <!-- <div class="funList">
         <div

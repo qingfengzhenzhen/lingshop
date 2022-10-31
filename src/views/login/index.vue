@@ -142,6 +142,11 @@ export default {
       pattern: /^\S{6,12}$/,
     };
   },
+  created() {
+    if(this.$route.query.is) {
+      this.iscli = false
+    }
+  },
   methods: {
     // 登录或注册按钮
     async onSubmit(values) {
@@ -236,7 +241,6 @@ export default {
 
 .change {
   margin: 0 0 0 300px;
-
   span.cli {
     color: red;
   }
