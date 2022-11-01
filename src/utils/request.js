@@ -5,7 +5,7 @@
 // // var url = 'http://39.99.246.93:8881/Website'
 // // var url = 'http://192.168.0.77:801/'
 // // var url = 'https://api.paibaoex.com/Website'  //派宝  上传用这个
-// var url = 'http://8.129.38.70:8008/' // 上传用这个
+// var url = 'https://apiShop.vicoshipments.com/' // 上传用这个
 
 // const instance = axios.create({
 //         baseURL: url, // api的base_url
@@ -74,7 +74,7 @@ ajax.create({
 	dataType: 'json',
 	withCredentials: false
 })
-ajax.defaults.baseURL = "http://8.129.38.70:8008"
+ajax.defaults.baseURL = "https://apiShop.vicoshipments.com"
 // ajax.defaults.baseURL = process.env.VUE_APP_BASE_API
 
 // ajax.defaults.baseURL = "http://106.52.170.127:8888/api"

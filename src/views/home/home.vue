@@ -283,9 +283,11 @@ export default {
         phone: "15899880301",
         address: null,
         email: "sales1@lindatrans.com",
-        bgImage: null,
+        bgImage: '',
         vBgImage: '',
         video: null,
+        register:'',
+        registerImage:""
       },
     };
   },
@@ -354,7 +356,7 @@ export default {
 
     // 获取功能列表
     let a = await GetCompanyInfo();
-    if (a.code == 200) {
+    if (a.code == 200 &&a.data) {
       this.info = a.data;
       this.info.bgImage = window.$http + this.info.bgImage;
       this.info.vBgImage = window.$http + this.info.vBgImage;

@@ -33,7 +33,7 @@ locale: localStorage.getItem('lang')||'zh', // 定义默认语言为中文简体
 })
 
 
-window.$http ="http://8.129.38.70:8007"
+window.$http ="https://shopmanage.vicoshipments.com"
 
 // Vue.prototype.window.$http.setI18n(i18n);
 Vue.directive('error', {
